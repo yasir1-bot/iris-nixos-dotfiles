@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "theme": {
+    "mode": "auto",
+    "wallpaper": "",
+    "glass": false
+  },
+  "quickshell": {
+    "bar": {
+      "position": "top",
+      "height": 34,
+      "showMedia": true,
+      "showWorkspaces": true,
+      "showTray": true
+    },
+    "launcher": {
+      "width": 720,
+      "showPowerActions": true
+    },
+    "notifications": {
+      "enabled": true,
+      "historyLimit": 100,
+      "position": "top-right"
+    },
+    "controlCenter": {
+      "showQuickToggles": true,
+      "showMedia": true
+    },
+    "animations": {
+      "enabled": true,
+      "durationMs": 220
+    }
+  },
+  "mangowm": {
+    "gaps": {
+      "inner": 8,
+      "outer": 8
+    },
+    "borders": {
+      "width": 2
+    },
+    "animations": {
+      "enabled": true
+    },
+    "layout": {
+      "default": "tile",
+      "infiniteDesktop": {
+        "requested": true,
+        "nativeSupport": false,
+        "notes": "Upstream MangoWC has no native infinite desktop/canvas layout as of research date; use scroller/overview workflows or fork-specific alternatives."
+      }
+    }
+  }
+}

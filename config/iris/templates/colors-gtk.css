@@ -1,0 +1,21 @@
+/* Iris-generated GTK color hints (rendered by Iris custom template).
+ * GTK theming is app/toolkit dependent; use as a best-effort base/override where feasible.
+ */
+@define-color iris_bg {bg};
+@define-color iris_fg {fg};
+@define-color iris_accent {accent};
+@define-color iris_surface {surface};
+@define-color iris_dim {dim};
+@define-color iris_red {red};
+@define-color iris_green {green};
+@define-color iris_yellow {yellow};
+
+@define-color theme_bg_color @iris_bg;
+@define-color theme_fg_color @iris_fg;
+@define-color theme_selected_bg_color @iris_accent;
+@define-color theme_selected_fg_color @iris_bg;
+@define-color accent_color @iris_accent;
+@define-color window_bg_color @iris_bg;
+@define-color window_fg_color @iris_fg;
+@define-color view_bg_color @iris_surface;
+@define-color view_fg_color @iris_fg;

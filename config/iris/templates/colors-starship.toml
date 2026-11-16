@@ -1,0 +1,31 @@
+# Iris-generated Starship palette/config fragment (rendered by Iris custom template)
+# Can be used as STARSHIP_CONFIG or merged in a declarative workflow.
+
+palette = "iris"
+
+[palettes.iris]
+bg = "{bg}"
+fg = "{fg}"
+accent = "{accent}"
+surface = "{surface}"
+dim = "{dim}"
+red = "{red}"
+green = "{green}"
+yellow = "{yellow}"
+blue = "{color4}"
+magenta = "{color5}"
+cyan = "{color6}"
+
+[character]
+success_symbol = "[❯](bold accent)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold accent)"
+
+[directory]
+style = "bold accent"
+
+[git_branch]
+style = "bold magenta"
+
+[git_status]
+style = "bold yellow"
