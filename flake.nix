@@ -1,5 +1,5 @@
 {
-  description = "Cohesive, declarative NixOS dotfiles: Iris-themed MangoWC + Quickshell shell";
+  description = "NixOS-WSL test branch: Iris-themed Quickshell dotfiles (MangoWC disabled)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -19,9 +19,14 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, mango, quickshell, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, mango, quickshell, nixos-wsl, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -43,31 +48,33 @@
       nixosModules.default = import ./system/modules;
       homeManagerModules.default = import ./home.nix;
 
-      nixosConfigurations.desktop = lib.nixosSystem {
+      # WSL-specific system. NixOS-WSL owns the root filesystem; no bootloader,
+      # disk mounts, or hardware configuration are declared here.
+      nixosConfigurations.wsl = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs self; };
         modules = [
-          ./system/hosts/desktop/default.nix
+          nixos-wsl.nixosModules.default
+          ./system/hosts/wsl/default.nix
           home-manager.nixosModules.home-manager
-          mango.nixosModules.mango
           {
             nixpkgs.overlays = [ self.overlays.default ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs self; };
             home-manager.sharedModules = [ mango.hmModules.mango ];
-            home-manager.users.user = import ./home.nix;
+            home-manager.users.user = import ./system/hosts/wsl/home.nix;
           }
         ];
       };
 
       # Convenience output for faster checks/eval in some workflows.
-      homeConfigurations."user@desktop" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."user@wsl" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { inherit inputs self; };
         modules = [
           mango.hmModules.mango
-          ./home.nix
+          (import ./system/hosts/wsl/home.nix)
         ];
       };
 

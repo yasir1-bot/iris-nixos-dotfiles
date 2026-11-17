@@ -7,7 +7,7 @@
   - `system/packages/iris-colors/default.nix` uses placeholder `rev/hash` by design until pinned; run `nix build .#iris-colors` to obtain the correct hash.
   - Quickshell input source/ref may need adjustment for your nixpkgs/HM version and platform.
 - **Hardware/session boot issues**
-  - Replace `system/hosts/desktop/hardware-configuration.example.nix` with a generated hardware config.
+  - This branch needs no hardware config. Ensure `wsl.enable = true` and `iris.wsl.enable = true` in `system/hosts/wsl/default.nix`.
   - Verify bootloader, filesystem UUIDs/labels, GPU drivers, and Wayland prerequisites.
 
 ## MangoWC

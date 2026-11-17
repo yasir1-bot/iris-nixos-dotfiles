@@ -26,7 +26,7 @@
     '';
 
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/.dotfiles#desktop";
+      rebuild = "sudo nixos-rebuild switch --flake ${config.home.homeDirectory}/.dotfiles#wsl";
     };
   };
 

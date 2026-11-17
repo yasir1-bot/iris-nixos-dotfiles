@@ -11,7 +11,7 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
 ├── flake.nix                 # flake entrypoint/outputs
 ├── home.nix                  # Home Manager entrypoint/module aggregator
 ├── system/                   # host configs, shared NixOS modules, local packages
-│   ├── hosts/desktop/
+│   ├── hosts/wsl/
 │   ├── modules/
 │   └── packages/iris-colors/
 ├── desktop/                  # theme, compositor, shell, persisted settings
@@ -31,11 +31,11 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
 ## Layers
 
 1. **Flake (`flake.nix`)**
-   - Pins inputs: `nixpkgs`, `home-manager`, `mango` (MangoWC), `quickshell`.
+   - Pins inputs: `nixpkgs`, `home-manager`, `mango` (MangoWC), `quickshell`, `nixos-wsl`.
    - Exposes NixOS and Home Manager configurations, local packages/overlays (e.g. `iris-colors`), and checks.
-2. **Host configuration (`system/hosts/desktop/`)**
-   - System-level NixOS settings: boot, users, networking, audio, portals, MangoWC system integration, baseline packages.
-   - Includes a placeholder/example hardware configuration; real installs must replace it.
+2. **Host configuration (`system/hosts/wsl/`)**
+   - WSL-specific system settings via `nixos-wsl.nixosModules.default` and `system/modules/wsl.nix`.
+   - No bootloader, disk mounts, or hardware configuration: WSL owns the root filesystem. MangoWC is disabled; WSLg provides Wayland.
 3. **Home Manager (`home.nix`)**
    - User environment and module aggregation. Modules are organized under the `desktop/`, `apps/`, and `shell/` branches.
 4. **Application/config assets**
@@ -71,7 +71,7 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
   1. UI writes `desktop/settings/settings.json` (and/or Mango fragment) atomically.
   2. Validate schema/values and compositor config (`mango -c <file> -p` for Mango fragments where applicable).
   3. Reload runtime state (`mmsg dispatch reload_config` / `setoption` for previews) as appropriate.
-  4. Optional controlled rebuild: fixed allowlisted `nixos-rebuild switch --flake <trusted>#desktop` via `scripts/apply-settings.sh` with proper privilege handling (polkit/sudoers), feedback, and rollback awareness.
+  4. Optional controlled rebuild: fixed allowlisted `nixos-rebuild switch --flake <trusted>#wsl` via `scripts/apply-settings.sh` with proper privilege handling (polkit/sudoers), feedback, and rollback awareness.
 - **Never** execute arbitrary shell commands derived from UI input.
 
 ## Limitations / design constraints (from research)

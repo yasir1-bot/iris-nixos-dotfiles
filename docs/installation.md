@@ -1,13 +1,13 @@
 # Installation
 
-> **Status:** This repository provides a complete declarative scaffold and configuration set, but some integrations depend on upstream/Nix availability, hardware, and a running Wayland session. Review `docs/upstream-research.md` and validate on target hardware.
+> **WSL test branch.** This configuration targets NixOS-WSL under WSL2 with WSLg. NixOS-WSL owns the root filesystem; do not generate or declare hardware/boot filesystems here.
 
 ## Prerequisites
 
-- NixOS (recommended: unstable channel alignment with flake inputs, or adjust pins accordingly)
+- Windows 10/11 with WSL2 and WSLg enabled
+- NixOS-WSL distro installed from `nix-community/NixOS-WSL` releases
 - Flakes enabled (`nix.settings.experimental-features = [ "nix-command" "flakes" ];`)
 - Git
-- A Wayland-capable GPU/session environment suitable for MangoWC
 
 ## Fresh NixOS install (recommended flow)
 
@@ -17,14 +17,12 @@
    cd ~/.dotfiles
    ```
 
-2. **Generate hardware configuration**
-   ```bash
-   sudo nixos-generate-config --show-hardware-config > system/hosts/desktop/hardware-configuration.nix
-   ```
-   Update `system/hosts/desktop/default.nix` to import `./hardware-configuration.nix` instead of the example placeholder.
+2. **No hardware configuration is needed**
+   NixOS-WSL provides the root filesystem and kernel environment. Keep
+   `system/hosts/wsl/default.nix` free of `fileSystems."/"`, `/boot`, and bootloader settings.
 
 3. **Review and customize**
-   - `system/hosts/desktop/default.nix`: hostname, timezone, locale, user name/groups, bootloader, networking, GPU/audio specifics.
+   - `system/hosts/wsl/default.nix`: hostname, user, WSL options, and `iris.wsl.rootFsType` (change only if your distro root is btrfs).
    - `home.nix`: username/home directory, dotfiles path assumptions, desired packages.
    - `flake.nix`: input refs/pins as needed (notably `quickshell` source/ref and `iris-colors` src rev/hash).
    - `desktop/settings/settings.json`: default wallpaper path, UI preferences.
@@ -38,22 +36,22 @@
 
 5. **Build/switch**
    ```bash
-   sudo nixos-rebuild switch --flake .#desktop
+   sudo nixos-rebuild switch --flake .#wsl
    ```
 
-6. **Log into MangoWC session** (via your configured greeter/display manager/session entry) and start/verify Quickshell shell if not auto-started.
+6. **Log into the WSL distro** with `wsl -d NixOS` and verify the shell/apps. MangoWC is disabled on this branch; WSLg provides the Wayland compositor.
 
 ## Updating
 
 ```bash
 cd ~/.dotfiles
 nix flake update        # optional: update inputs
-sudo nixos-rebuild switch --flake .#desktop
+sudo nixos-rebuild switch --flake .#wsl
 ```
 
 For Home Manager-only testing (where applicable):
 ```bash
-home-manager switch --flake .#user@desktop
+home-manager switch --flake .#user@wsl
 ```
 
 ## Theming (Iris)

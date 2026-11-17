@@ -11,7 +11,7 @@ Usage: apply-settings.sh [--rebuild] [--flake <path>#<host>]
 
 Options:
   --rebuild           Run nixos-rebuild switch after saving settings (requires privileges/polkit/sudo setup)
-  --flake REF         Flake ref to rebuild (default: $HOME/.dotfiles#desktop)
+  --flake REF         Flake ref to rebuild (default: $HOME/.dotfiles#wsl)
   -h, --help          Show help
 
 Environment:
@@ -21,7 +21,7 @@ EOF
 
 REBUILD=0
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
-FLAKE_REF="$DOTFILES_DIR#desktop"
+FLAKE_REF="$DOTFILES_DIR#wsl"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

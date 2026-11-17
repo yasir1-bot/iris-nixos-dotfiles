@@ -45,7 +45,7 @@ in
   # Convenient aliases for applying theme and rebuilding (review scripts before use).
   home.shellAliases = {
     iris-apply = "iris $(cat ${config.xdg.configHome}/iris/current-wallpaper 2>/dev/null || echo '')";
-    dots-rebuild = "sudo nixos-rebuild switch --flake ${dotfilesDir}#desktop";
+    dots-rebuild = "sudo nixos-rebuild switch --flake ${dotfilesDir}#wsl";
   };
 
   # Ensure user service env is reasonable for Wayland sessions.

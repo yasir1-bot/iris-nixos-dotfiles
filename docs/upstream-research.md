@@ -299,3 +299,13 @@ From [cli.py](https://raw.githubusercontent.com/Harman1307/iris/main/iris/cli.py
 - **Quickshell/Noctalia parity:** high-fidelity recreation feasible for most surfaces; hardest areas are portable blur, network/bluetooth/brightness glue, and cross-compositor behavior parity.
 - **Swiftify:** MPRIS integration plausible; requested source/provider/UI changes largely not upstream-supported. Treat as best-effort/integration target with documented constraints, or substitute/augment with a player that natively fits YT Music + local library + MPRIS if required.
 - **Testing transparency:** distinguish syntax/eval/static checks from untested graphical/runtime behavior on real hardware/session.
+
+---
+
+## NixOS-WSL (`wsl-test` branch)
+
+- **Upstream:** [nix-community/NixOS-WSL](https://github.com/nix-community/NixOS-WSL) ([docs](https://nix-community.github.io/NixOS-WSL/)).
+- **Integration:** add `nixos-wsl.url = "github:nix-community/NixOS-WSL/main"` and include `nixos-wsl.nixosModules.default`; set `wsl.enable = true` ([flakes how-to](https://nix-community.github.io/NixOS-WSL/how-to/nix-flakes.html)).
+- **Root filesystem:** upstream docs and module source show WSL owns the distro root; no `fileSystems."/"`, `/boot`, bootloader, or generated hardware config should be declared. No upstream option requires btrfs was found; normal WSL2 distro roots are ext4 `.vhdx` files. The branch exposes `iris.wsl.rootFsType` (default `ext4`, can be set to `btrfs`) only for NixOS filesystem support, not disk conversion.
+- **GUI/session:** WSLg provides the Wayland/X11 environment; MangoWC is disabled on this branch to avoid competing with WSLg. Quickshell/app configs remain available for manual launch/testing.
+- **Refs:** [module options](https://nix-community.github.io/NixOS-WSL/options.html), [wsl-distro module](https://github.com/nix-community/NixOS-WSL/blob/main/modules/wsl-distro.nix), [flake source](https://github.com/nix-community/NixOS-WSL/blob/main/flake.nix).
