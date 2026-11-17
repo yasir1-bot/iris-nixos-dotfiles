@@ -4,7 +4,7 @@
 
 - **`nix flake check` or evaluation fails**
   - Ensure inputs are reachable and pinned refs are valid.
-  - `system/packages/iris-colors/default.nix` uses placeholder `rev/hash` by design until pinned; run `nix build .#iris-colors` to obtain the correct hash.
+  - `system/packages/iris-colors/default.nix` pins Iris at upstream `v0.1.2` with a verified hash. If you update `rev`, regenerate `hash` with `nix build .#iris-colors`; an old/invalid `rev` fails with a source-fetch 404.
   - Quickshell input source/ref may need adjustment for your nixpkgs/HM version and platform.
 - **Hardware/session boot issues**
   - Replace `system/hosts/desktop/hardware-configuration.example.nix` with a generated hardware config.

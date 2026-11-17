@@ -11,8 +11,9 @@ python3Packages.buildPythonApplication rec {
   src = fetchFromGitHub {
     owner = "Harman1307";
     repo = "iris";
-    rev = "d95d7252f0f5b84f7f6e7a5f7dbeef8a0be24e5b"; # TODO: pin verified commit/hash after upstream review
-    hash = lib.fakeHash; # TODO: replace with real hash (nix build will report)
+    # v0.1.2 (2026-08-05); the previously pinned rev did not exist upstream.
+    rev = "0b7daec66dc5f84dfc557f437c6b73a4b59399c0";
+    hash = "sha256-l2X1TVTHfYCqDZJcvvgVLXU/9NXcNb2rGHiN3PgfswE=";
   };
 
   build-system = [ python3Packages.hatchling ];

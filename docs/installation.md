@@ -29,12 +29,11 @@
    - `flake.nix`: input refs/pins as needed (notably `quickshell` source/ref and `iris-colors` src rev/hash).
    - `desktop/settings/settings.json`: default wallpaper path, UI preferences.
 
-4. **Fix local package hashes/pins (if needed)**
-   - `system/packages/iris-colors/default.nix` contains placeholders (`rev`, `hash = lib.fakeHash`). Build once to obtain the correct hash:
+4. **Local package pin**
+   - `system/packages/iris-colors/default.nix` pins Iris at upstream `v0.1.2` (`0b7daec66dc5f84dfc557f437c6b73a4b59399c0`) with a verified hash. If you intentionally update the pin, replace both `rev` and `hash` and rebuild:
      ```bash
      nix build .#iris-colors
      ```
-     Update the hash/rev accordingly.
 
 5. **Build/switch**
    ```bash
