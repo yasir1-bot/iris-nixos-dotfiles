@@ -1,7 +1,10 @@
 { config, pkgs, lib, modulesPath, ... }:
 
 {
-  imports = [ ../../modules/wsl.nix ];
+  # Optional generated hardware config (CPU/PCI/module hints only).
+  # Generate it with scripts/generate-wsl-config.sh; it contains no filesystems.
+  imports = [ ../../modules/wsl.nix ]
+    ++ lib.optional (builtins.pathExists ./hardware-configuration.nix) ./hardware-configuration.nix;
 
   iris.wsl = {
     enable = true;

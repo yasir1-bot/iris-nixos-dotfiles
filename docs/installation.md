@@ -17,9 +17,15 @@
    cd ~/.dotfiles
    ```
 
-2. **No hardware configuration is needed**
-   NixOS-WSL provides the root filesystem and kernel environment. Keep
-   `system/hosts/wsl/default.nix` free of `fileSystems."/"`, `/boot`, and bootloader settings.
+2. **Optional hardware config (no filesystems)**
+   NixOS-WSL provides the root filesystem and kernel environment, so no hardware config is required.
+   If you want CPU/PCI/module hints, generate a filesystem-free one with:
+   ```bash
+   ./scripts/generate-wsl-config.sh
+   ```
+   This writes `system/hosts/wsl/hardware-configuration.nix` and is imported automatically if present.
+   Do **not** use plain `nixos-generate-config --show-hardware-config`: it probes WSLg bind mounts with
+   `btrfs subvol show` and emits noisy `ERROR: not a btrfs filesystem: /mnt/wslg/distro` messages.
 
 3. **Review and customize**
    - `system/hosts/wsl/default.nix`: hostname, user, WSL options, and `iris.wsl.rootFsType` (change only if your distro root is btrfs).

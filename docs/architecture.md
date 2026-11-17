@@ -24,7 +24,7 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
 │   ├── editor/neovim/
 │   └── media/swiftify/
 ├── shell/                    # shell environment modules (Nushell, Starship)
-├── scripts/                  # safe apply/validate helpers
+├── scripts/                  # safe apply/validate + WSL config helpers
 └── docs/                     # architecture, install, theming, troubleshooting, research
 ```
 

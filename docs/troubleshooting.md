@@ -5,10 +5,11 @@
 - **`nix flake check` or evaluation fails**
   - Ensure inputs are reachable and pinned refs are valid.
   - `system/packages/iris-colors/default.nix` uses placeholder `rev/hash` by design until pinned; run `nix build .#iris-colors` to obtain the correct hash.
+  - `ERROR: not a btrfs filesystem: /mnt/wslg/distro` (or `/tmp/.X11-unix`) is harmless stderr from `nixos-generate-config` probing WSLg bind mounts. Do not write those filesystem entries; use `./scripts/generate-wsl-config.sh` or skip hardware config entirely.
   - Quickshell input source/ref may need adjustment for your nixpkgs/HM version and platform.
 - **Hardware/session boot issues**
   - This branch needs no hardware config. Ensure `wsl.enable = true` and `iris.wsl.enable = true` in `system/hosts/wsl/default.nix`.
-  - Verify bootloader, filesystem UUIDs/labels, GPU drivers, and Wayland prerequisites.
+  - WSL owns boot/filesystems; verify WSLg and Windows GPU driver integration instead.
 
 ## MangoWC
 
