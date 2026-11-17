@@ -14,15 +14,15 @@ in
   home.packages = [
     # Prefer the flake input package when available for the target system.
     inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ];
-
-  # Runtime dependencies commonly needed for shell controls/widgets (best-effort baseline).
-  home.packages = lib.mkAfter (with pkgs; [
-    networkmanager
-    bluez
-    brightnessctl
-    wireplumber
-    playerctl
-    libnotify
-  ]);
+  ] ++ (
+    # Runtime dependencies commonly needed for shell controls/widgets (best-effort baseline).
+    with pkgs; [
+      networkmanager
+      bluez
+      brightnessctl
+      wireplumber
+      playerctl
+      libnotify
+    ]
+  );
 }
