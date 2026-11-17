@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 let
-  qsDir = ../../config/quickshell;
+  qsDir = ./config;
 in
 {
   # Install the Quickshell shell configuration. HM `programs.quickshell` can be used if

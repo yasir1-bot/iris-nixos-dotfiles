@@ -33,7 +33,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 SETTINGS_SRC="${XDG_CONFIG_HOME:-$HOME/.config}/desktop/settings.json"
-SETTINGS_DST="$DOTFILES_DIR/config/desktop/settings.json"
+SETTINGS_DST="$DOTFILES_DIR/desktop/settings/settings.json"
 
 if [[ ! -f "$SETTINGS_SRC" ]]; then
   echo "Settings file not found: $SETTINGS_SRC" >&2

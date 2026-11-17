@@ -4,21 +4,45 @@
 
 This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles system centered on **Iris** as the single theme/palette source. The desktop targets **MangoWC** (Wayland compositor/window manager) with a custom **Quickshell** shell inspired heavily by **Noctalia legacy-v4**.
 
+## Repository layout (dendritic)
+
+```text
+.
+├── flake.nix                 # flake entrypoint/outputs
+├── home.nix                  # Home Manager entrypoint/module aggregator
+├── system/                   # host configs, shared NixOS modules, local packages
+│   ├── hosts/desktop/
+│   ├── modules/
+│   └── packages/iris-colors/
+├── desktop/                  # theme, compositor, shell, persisted settings
+│   ├── settings/
+│   ├── theme/iris/
+│   ├── compositor/mangowm/
+│   └── shell/quickshell/
+├── apps/                     # terminal, editor, media integrations
+│   ├── terminal/ghostty/
+│   ├── editor/neovim/
+│   └── media/swiftify/
+├── shell/                    # shell environment modules (Nushell, Starship)
+├── scripts/                  # safe apply/validate helpers
+└── docs/                     # architecture, install, theming, troubleshooting, research
+```
+
 ## Layers
 
 1. **Flake (`flake.nix`)**
    - Pins inputs: `nixpkgs`, `home-manager`, `mango` (MangoWC), `quickshell`.
    - Exposes NixOS and Home Manager configurations, local packages/overlays (e.g. `iris-colors`), and checks.
-2. **Host configuration (`hosts/desktop/`)**
+2. **Host configuration (`system/hosts/desktop/`)**
    - System-level NixOS settings: boot, users, networking, audio, portals, MangoWC system integration, baseline packages.
    - Includes a placeholder/example hardware configuration; real installs must replace it.
-3. **Home Manager (`home.nix`, `modules/home/`)**
-   - User environment, shell/editor/terminal configs, Quickshell config deployment, MangoWC HM settings, theming orchestration, and desktop settings file.
-4. **Application/config assets (`config/`)**
-   - `config/iris/templates/`: custom Iris templates rendered into `~/.cache/iris/` for apps without native Iris support.
-   - `config/quickshell/`: QML shell (services, components/panels, theme loading).
-   - `config/desktop/settings.json`: persisted UI/runtime preferences (graphical settings source of truth for user-facing state).
-   - App-specific configs for Ghostty, Nushell, Starship, Neovim/LazyVim.
+3. **Home Manager (`home.nix`)**
+   - User environment and module aggregation. Modules are organized under the `desktop/`, `apps/`, and `shell/` branches.
+4. **Application/config assets**
+   - `desktop/theme/iris/templates/`: custom Iris templates rendered into `~/.cache/iris/` for apps without native Iris support.
+   - `desktop/shell/quickshell/config/`: QML shell (services, components/panels, theme loading).
+   - `desktop/settings/settings.json`: persisted UI/runtime preferences (graphical settings source of truth for user-facing state).
+   - App-specific modules/configs under `apps/terminal/ghostty/`, `shell/nushell/`, `shell/starship/`, and `apps/editor/neovim/`.
 5. **Scripts (`scripts/`)**
    - Safe helpers for applying settings and validation (allowlisted commands only; no arbitrary UI-driven execution).
 
@@ -44,7 +68,7 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
 - **Base config**: declarative via `wayland.windowManager.mango.settings` (HM module validates generated config at build time).
 - **Runtime/GUI adjustments**: prefer a sourced fragment (e.g. `source_optional` to a UI-managed file) or persisted settings that drive regeneration, to avoid mutating HM-owned store files.
 - **Apply flow (intended/safe):**
-  1. UI writes `config/desktop/settings.json` (and/or Mango fragment) atomically.
+  1. UI writes `desktop/settings/settings.json` (and/or Mango fragment) atomically.
   2. Validate schema/values and compositor config (`mango -c <file> -p` for Mango fragments where applicable).
   3. Reload runtime state (`mmsg dispatch reload_config` / `setoption` for previews) as appropriate.
   4. Optional controlled rebuild: fixed allowlisted `nixos-rebuild switch --flake <trusted>#desktop` via `scripts/apply-settings.sh` with proper privilege handling (polkit/sudoers), feedback, and rollback awareness.

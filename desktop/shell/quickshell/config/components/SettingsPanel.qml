@@ -85,7 +85,7 @@ PanelWindow {
                     ScrollView { ColumnLayout {
                         width: parent.width; spacing: 10
                         Label { text: "Declarative Apply"; color: Services.Theme.accent; font.bold: true }
-                        Text { text: "Saves graphical settings to config/desktop/settings.json (or repo-managed target), validates inputs, and can trigger a controlled NixOS rebuild. Must not execute arbitrary commands from UI input."; color: Services.Theme.dim; wrapMode: Text.Wrap; Layout.fillWidth: true }
+                        Text { text: "Saves graphical settings to desktop/settings/settings.json (or repo-managed target), validates inputs, and can trigger a controlled NixOS rebuild. Must not execute arbitrary commands from UI input."; color: Services.Theme.dim; wrapMode: Text.Wrap; Layout.fillWidth: true }
                         TextArea { Layout.fillWidth: true; implicitHeight: 120; readOnly: true; text: "Implementation notes:\n- Write atomically and validate schema/values\n- Use a fixed allowlisted rebuild command (e.g. scripts/apply-settings.sh -> nixos-rebuild switch --flake <trusted-path>#desktop)\n- Consider polkit/sudoers rule for least privilege\n- Show success/failure logs and preserve rollback options" }
                         RowLayout {
                             Button { text: "Save Settings" }

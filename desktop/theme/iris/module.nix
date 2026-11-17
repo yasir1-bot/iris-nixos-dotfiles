@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  irisTemplatesDir = ../../config/iris/templates;
+  irisTemplatesDir = ./templates;
 in
 {
   # Iris does not ship native templates/modules for all target apps, so we install

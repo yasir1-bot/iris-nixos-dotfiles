@@ -23,7 +23,7 @@ Upstream facts (researched 2026-11-16): Iris is a CLI generator (wallpaper -> pa
 - `colors-ghostty.conf` -> Ghostty `config-file` include
 - `colors-nushell.nu` -> sourced by Nushell config when present
 - `colors-starship.toml` -> palette/config fragment (runtime `STARSHIP_CONFIG` or declarative merge strategy)
-- `colors-nvim.lua` -> Lua table consumed by `config/nvim/lua/theme/iris.lua`
+- `colors-nvim.lua` -> Lua table consumed by `apps/editor/neovim/config/lua/theme/iris.lua`
 - `colors-quickshell.qml` -> Quickshell theme token singleton/template (integration/wiring may require runtime path strategy)
 - `colors-mango.conf` -> MangoWC color fragment (source/include workflow; verify option names/format per Mango version)
 - `colors-gtk.css` -> best-effort GTK color hints (toolkit/app dependent)

@@ -2,18 +2,18 @@
 
 let
   dotfilesDir = "${config.home.homeDirectory}/.dotfiles"; # expected checkout location for rebuild scripts
-  desktopSettings = ./config/desktop/settings.json;
+  desktopSettings = ./desktop/settings/settings.json;
 in
 {
   imports = [
-    ./modules/home/theming.nix
-    ./modules/home/quickshell.nix
-    ./modules/home/mangowm.nix
-    ./modules/home/ghostty.nix
-    ./modules/home/nushell.nix
-    ./modules/home/starship.nix
-    ./modules/home/neovim.nix
-    ./modules/home/swiftify.nix
+    ./desktop/theme/iris/module.nix
+    ./desktop/shell/quickshell/module.nix
+    ./desktop/compositor/mangowm/module.nix
+    ./apps/terminal/ghostty/module.nix
+    ./shell/nushell/module.nix
+    ./shell/starship/module.nix
+    ./apps/editor/neovim/module.nix
+    ./apps/media/swiftify/module.nix
   ];
 
   home.username = "user";

@@ -19,7 +19,7 @@ fi
 
 echo "==> JSON validation"
 if command -v jq >/dev/null 2>&1; then
-  jq -e . config/desktop/settings.json >/dev/null && echo "config/desktop/settings.json: OK"
+  jq -e . desktop/settings/settings.json >/dev/null && echo "desktop/settings/settings.json: OK"
 else
   echo "jq not found; skipping JSON validation"
 fi

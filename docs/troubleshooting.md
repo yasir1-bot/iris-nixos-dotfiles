@@ -4,10 +4,10 @@
 
 - **`nix flake check` or evaluation fails**
   - Ensure inputs are reachable and pinned refs are valid.
-  - `pkgs/iris-colors/default.nix` uses placeholder `rev/hash` by design until pinned; run `nix build .#iris-colors` to obtain the correct hash.
+  - `system/packages/iris-colors/default.nix` uses placeholder `rev/hash` by design until pinned; run `nix build .#iris-colors` to obtain the correct hash.
   - Quickshell input source/ref may need adjustment for your nixpkgs/HM version and platform.
 - **Hardware/session boot issues**
-  - Replace `hosts/desktop/hardware-configuration.example.nix` with a generated hardware config.
+  - Replace `system/hosts/desktop/hardware-configuration.example.nix` with a generated hardware config.
   - Verify bootloader, filesystem UUIDs/labels, GPU drivers, and Wayland prerequisites.
 
 ## MangoWC

@@ -19,18 +19,18 @@
 
 2. **Generate hardware configuration**
    ```bash
-   sudo nixos-generate-config --show-hardware-config > hosts/desktop/hardware-configuration.nix
+   sudo nixos-generate-config --show-hardware-config > system/hosts/desktop/hardware-configuration.nix
    ```
-   Update `hosts/desktop/default.nix` to import `./hardware-configuration.nix` instead of the example placeholder.
+   Update `system/hosts/desktop/default.nix` to import `./hardware-configuration.nix` instead of the example placeholder.
 
 3. **Review and customize**
-   - `hosts/desktop/default.nix`: hostname, timezone, locale, user name/groups, bootloader, networking, GPU/audio specifics.
+   - `system/hosts/desktop/default.nix`: hostname, timezone, locale, user name/groups, bootloader, networking, GPU/audio specifics.
    - `home.nix`: username/home directory, dotfiles path assumptions, desired packages.
    - `flake.nix`: input refs/pins as needed (notably `quickshell` source/ref and `iris-colors` src rev/hash).
-   - `config/desktop/settings.json`: default wallpaper path, UI preferences.
+   - `desktop/settings/settings.json`: default wallpaper path, UI preferences.
 
 4. **Fix local package hashes/pins (if needed)**
-   - `pkgs/iris-colors/default.nix` contains placeholders (`rev`, `hash = lib.fakeHash`). Build once to obtain the correct hash:
+   - `system/packages/iris-colors/default.nix` contains placeholders (`rev`, `hash = lib.fakeHash`). Build once to obtain the correct hash:
      ```bash
      nix build .#iris-colors
      ```

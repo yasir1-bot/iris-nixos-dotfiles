@@ -1,7 +1,7 @@
 # Placeholder hardware configuration.
 # Generate a real one on the target machine with:
-#   sudo nixos-generate-config --show-hardware-config > hosts/desktop/hardware-configuration.nix
-# Then replace this import in hosts/desktop/default.nix.
+#   sudo nixos-generate-config --show-hardware-config > system/hosts/desktop/hardware-configuration.nix
+# Then replace this import in system/hosts/desktop/default.nix.
 { config, lib, pkgs, modulesPath, ... }:
 
 {

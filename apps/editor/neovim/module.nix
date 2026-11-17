@@ -26,6 +26,6 @@
   # LazyVim-based configuration (starter-style, upstream-compatible).
   # Plugin management is primarily handled by lazy.nvim at runtime for parity with LazyVim;
   # LSP/formatters/tools are provided by Nix above.
-  xdg.configFile."nvim".source = ../../config/nvim;
+  xdg.configFile."nvim".source = ./config;
   xdg.configFile."nvim".recursive = true;
 }

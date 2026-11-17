@@ -1,5 +1,5 @@
 -- Iris-generated Neovim colors (rendered by Iris custom template)
--- Applied by config/nvim/lua/theme/iris.lua when present.
+-- Applied by apps/editor/neovim/config/lua/theme/iris.lua when present.
 
 return {
   bg = "{bg}",

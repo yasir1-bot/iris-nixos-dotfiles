@@ -32,7 +32,7 @@
     in
     {
       overlays.default = final: prev: {
-        iris-colors = final.callPackage ./pkgs/iris-colors { };
+        iris-colors = final.callPackage ./system/packages/iris-colors { };
       };
 
       packages.${system} = {
@@ -40,14 +40,14 @@
         default = pkgs.iris-colors;
       };
 
-      nixosModules.default = import ./modules/nixos;
-      homeManagerModules.default = import ./modules/home;
+      nixosModules.default = import ./system/modules;
+      homeManagerModules.default = import ./home.nix;
 
       nixosConfigurations.desktop = lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs self; };
         modules = [
-          ./hosts/desktop/default.nix
+          ./system/hosts/desktop/default.nix
           home-manager.nixosModules.home-manager
           mango.nixosModules.mango
           {
