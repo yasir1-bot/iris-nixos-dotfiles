@@ -50,7 +50,9 @@
    ```bash
    ./scripts/start-mango-wsl.sh
    ```
-   This connects Mango to WSLg's Wayland socket and opens it as a single nested window using the wlroots Wayland backend with software rendering. Close that window or press `Ctrl+C` in the terminal to stop Mango.
+   This connects Mango to WSLg's Wayland socket and opens it as a single nested window using the wlroots Wayland backend with Mesa software GLES2. Close that window or press `Ctrl+C` in the terminal to stop Mango.
+
+   > **WSL limitation:** stock WSL kernels lack `/dev/udmabuf` and WSLg exposes no DRM render node/dma-buf. Mango hardcodes scenefx's GLES2 renderer, so the software path may still fail at allocator creation. See `docs/troubleshooting.md` and `docs/upstream-research.md`; if it fails, Mango cannot be nested on this kernel without a custom kernel/render node.
 
    Nested Mango windows have no titlebar under WSLg. Use Windows `Alt+Tab`, `Win+Arrow` snapping, or `Alt+Space` → Move to position/resize the window. Inside Mango, `SUPER+Return` opens Ghostty and `SUPER+Space` calls Quickshell's launcher.
 

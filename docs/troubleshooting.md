@@ -21,7 +21,9 @@
   - HM owns generated config; persist UI/runtime overrides in a sourced fragment or via declarative settings workflow.
 - **Nested WSL launch fails**
   - `error: WSLg Wayland socket not found at /mnt/wslg/runtime-dir/wayland-0` means you are outside WSL 2 or WSLg is disabled; enable WSLg and relaunch the distro.
-  - If the nested window is blank, do not inherit `DISPLAY`; the launcher unsets it and forces `WLR_BACKENDS=wayland` with `WLR_RENDERER=pixman`.
+  - `Cannot create GLES2 renderer: no DRM FD available` / `couldn't create renderer` means plain `mango` was started without the launcher, or the launcher had not yet been updated. Mango uses scenefx's GLES2 renderer and **ignores** `WLR_RENDERER=pixman`; run `./scripts/start-mango-wsl.sh`, which sets `WLR_RENDERER_FORCE_SOFTWARE=1` and `WLR_RENDERER_ALLOW_SOFTWARE=1`.
+  - If you now get `Failed to open /dev/udmabuf` / `couldn't create allocator`, that is the known stock WSL kernel blocker: software GLES2 works but wlroots needs `/dev/udmabuf` for buffer allocation (see [WSLg #1532](https://github.com/microsoft/wslg/issues/1532)). Custom kernel with `CONFIG_UDMABUF=y`, a real DRM render node, or native Linux is required; a plain pixman fallback is not available because Mango hardcodes the FX renderer.
+  - If the nested window is blank, do not inherit `DISPLAY`; the launcher unsets it and forces `WLR_BACKENDS=wayland`.
   - Nested Mango appears as one undecorated WSLg window. Use Windows `Alt+Tab`/snapping or `Alt+Space` → Move for the outer window, and Mango bindings for the inner session.
 
 ## Quickshell

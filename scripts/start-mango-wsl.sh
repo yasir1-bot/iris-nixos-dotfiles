@@ -35,13 +35,21 @@ export WAYLAND_DISPLAY=wayland-0
 export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=Mango
 
-# Nested wlroots compositor: use WSLg's Wayland display, software rendering,
-# and no direct libinput/cursor/render-node access.
+# Nested wlroots compositor: use WSLg's Wayland display and no direct
+# libinput/cursor/render-node access.
 export WLR_BACKENDS=wayland
-export WLR_RENDERER=pixman
 export WLR_LIBINPUT_NO_DEVICES=1
 export WLR_WL_OUTPUTS=1
 export WLR_NO_HARDWARE_CURSORS=1
+
+# Mango uses scenefx's GLES2 renderer, which ignores WLR_RENDERER=pixman and
+# insists on a DRM FD. Force Mesa's software GLES2 path instead.
+export WLR_RENDERER_FORCE_SOFTWARE=1
+export WLR_RENDERER_ALLOW_SOFTWARE=1
+
+if [[ ! -e /dev/udmabuf ]]; then
+  echo "warning: /dev/udmabuf is missing; stock WSL kernels often fail the wlroots allocator step" >&2
+fi
 
 # Force pure Wayland; an inherited DISPLAY can select the wrong backend.
 unset DISPLAY
