@@ -44,7 +44,7 @@
         "SUPER,7,view,7"
         "SUPER,8,view,8"
         "SUPER,9,view,9"
-        "SUPER SHIFT,R,reload_config"
+        "SUPER+SHIFT,R,reload_config"
       ];
 
       # Start the custom Quickshell shell on session start (adjust command/path as needed)
