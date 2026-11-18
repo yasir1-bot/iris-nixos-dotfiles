@@ -44,7 +44,15 @@
    sudo nixos-rebuild switch --flake .#wsl
    ```
 
-6. **Log into the WSL distro** with `wsl -d NixOS` and verify the shell/apps. MangoWC is disabled on this branch; WSLg provides the Wayland compositor.
+6. **Log into the WSL distro** with `wsl -d NixOS` and verify the shell/apps. WSLg provides the default Wayland session; MangoWC is installed but not started at login.
+
+7. **(Optional) Launch MangoWC in a window**
+   ```bash
+   ./scripts/start-mango-wsl.sh
+   ```
+   This connects Mango to WSLg's Wayland socket and opens it as a single nested window using the wlroots Wayland backend with software rendering. Close that window or press `Ctrl+C` in the terminal to stop Mango.
+
+   Nested Mango windows have no titlebar under WSLg. Use Windows `Alt+Tab`, `Win+Arrow` snapping, or `Alt+Space` → Move to position/resize the window. Inside Mango, `SUPER+Return` opens Ghostty and `SUPER+Space` calls Quickshell's launcher.
 
 ## Updating
 

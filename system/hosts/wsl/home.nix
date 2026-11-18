@@ -3,9 +3,9 @@
 {
   imports = [ ../../../home.nix ];
 
-  # WSLg already provides a Wayland compositor. Keep the shell/application
-  # configs, but do not start MangoWC or declare Mango-specific bindings here.
-  wayland.windowManager.mango.enable = lib.mkForce false;
+  # MangoWC is installed and its config validated at build time, but it is not
+  # started at login: WSLg owns the default Wayland session. Launch it on demand
+  # with `./scripts/start-mango-wsl.sh` to run it nested in a WSLg window.
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";

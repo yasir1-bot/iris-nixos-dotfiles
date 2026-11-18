@@ -19,6 +19,10 @@
   - Check for `mangonag` error bar output when config is invalid.
 - **HM-managed config overwritten**
   - HM owns generated config; persist UI/runtime overrides in a sourced fragment or via declarative settings workflow.
+- **Nested WSL launch fails**
+  - `error: WSLg Wayland socket not found at /mnt/wslg/runtime-dir/wayland-0` means you are outside WSL 2 or WSLg is disabled; enable WSLg and relaunch the distro.
+  - If the nested window is blank, do not inherit `DISPLAY`; the launcher unsets it and forces `WLR_BACKENDS=wayland` with `WLR_RENDERER=pixman`.
+  - Nested Mango appears as one undecorated WSLg window. Use Windows `Alt+Tab`/snapping or `Alt+Space` → Move for the outer window, and Mango bindings for the inner session.
 
 ## Quickshell
 
