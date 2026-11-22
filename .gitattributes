@@ -1,0 +1,7 @@
+# Force LF for all text files, in the repository and on checkout.
+# CRLF breaks bash shebangs under WSL/NixOS ("env: bash\r: No such file").
+* text=auto eol=lf
+
+*.sh  text eol=lf
+*.nix text eol=lf
+*.md  text eol=lf
