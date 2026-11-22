@@ -1,0 +1,35 @@
+# Nested sway under WSLg (see scripts/start-sway-wsl.sh).
+# The launcher forces WLR_RENDERER=pixman, so no DRM node or Xwayland is needed.
+
+set $mod Mod4
+set $home /home/user
+set $term ghostty
+set $shell quickshell -p $home/.config/quickshell/shell.qml
+
+# WSLg already owns the X display; sway's Xwayland cannot claim one.
+xwayland disable
+
+input "type:keyboard" {
+  xkb_layout us
+}
+
+output * bg #1e1e2e solid_color
+
+gaps inner 8
+gaps outer 8
+
+bindsym $mod+Return exec $term
+bindsym $mod+Space exec $shell
+bindsym $mod+q kill
+bindsym $mod+f floating toggle
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exit

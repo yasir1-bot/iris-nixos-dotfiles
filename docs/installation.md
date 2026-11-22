@@ -44,17 +44,27 @@
    sudo nixos-rebuild switch --flake .#wsl
    ```
 
-6. **Log into the WSL distro** with `wsl -d NixOS` and verify the shell/apps. WSLg provides the default Wayland session; MangoWC is installed but not started at login.
+6. **Log into the WSL distro** with `wsl -d NixOS` and verify the shell/apps. WSLg provides the default Wayland session; neither compositor starts at login.
 
-7. **(Optional) Launch MangoWC in a window**
+7. **Launch a nested compositor in a window (optional)**
+
+   Recommended on stock WSL kernels — sway with the pixman renderer:
+
+   ```bash
+   ./scripts/start-sway-wsl.sh
+   ```
+
+   This connects sway to WSLg's Wayland socket and opens one nested window. It uses `WLR_RENDERER=pixman` with wlroots' shm allocator, so it needs no DRM node, no `/dev/udmabuf`, and no custom kernel. Rendering is CPU-only. `SUPER+Return` opens Ghostty, `SUPER+Space` starts Quickshell, `SUPER+Shift+r` reloads, and `SUPER+Shift+e` exits.
+
+   MangoWC is also installed and config-validated, but its nested launcher is best-effort:
+
    ```bash
    ./scripts/start-mango-wsl.sh
    ```
-   This connects Mango to WSLg's Wayland socket and opens it as a single nested window using the wlroots Wayland backend with Mesa software GLES2. Close that window or press `Ctrl+C` in the terminal to stop Mango.
 
-   > **WSL limitation:** stock WSL kernels lack `/dev/udmabuf` and WSLg exposes no DRM render node/dma-buf. Mango hardcodes scenefx's GLES2 renderer, so the software path may still fail at allocator creation. See `docs/troubleshooting.md` and `docs/upstream-research.md`; if it fails, Mango cannot be nested on this kernel without a custom kernel/render node.
+   > **WSL limitation:** stock WSL kernels lack `/dev/udmabuf` and WSLg exposes no DRM render node/dma-buf. Mango hardcodes scenefx's GLES2 renderer, so the software path fails at allocator creation and can segfault. Use sway instead, or see `docs/troubleshooting.md` and `docs/upstream-research.md` for the custom-kernel route.
 
-   Nested Mango windows have no titlebar under WSLg. Use Windows `Alt+Tab`, `Win+Arrow` snapping, or `Alt+Space` → Move to position/resize the window. Inside Mango, `SUPER+Return` opens Ghostty and `SUPER+Space` calls Quickshell's launcher.
+   Nested windows have no titlebar under WSLg. Use Windows `Alt+Tab`, `Win+Arrow` snapping, or `Alt+Space` → Move to position/resize the outer window. Close it or press `Ctrl+C` in the terminal to stop the compositor.
 
 ## Updating
 

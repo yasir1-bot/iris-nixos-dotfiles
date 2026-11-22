@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles system centered on **Iris** as the single theme/palette source. The desktop targets **MangoWC** (Wayland compositor/window manager) with a custom **Quickshell** shell inspired heavily by **Noctalia legacy-v4**.
+This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles system centered on **Iris** as the single theme/palette source. The desktop targets **MangoWC** (Wayland compositor/window manager) with a custom **Quickshell** shell inspired heavily by **Noctalia legacy-v4**. On the `wsl-test` branch, a WSL-only **sway** fallback provides a working nested desktop where MangoWC's GLES2 renderer cannot run under stock WSLg.
 
 ## Repository layout (dendritic)
 
@@ -18,6 +18,7 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
 │   ├── settings/
 │   ├── theme/iris/
 │   ├── compositor/mangowm/
+│   ├── compositor/sway/      # WSL-only nested fallback
 │   └── shell/quickshell/
 ├── apps/                     # terminal, editor, media integrations
 │   ├── terminal/ghostty/
@@ -25,6 +26,7 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
 │   └── media/swiftify/
 ├── shell/                    # shell environment modules (Nushell, Starship)
 ├── scripts/                  # safe apply/validate + WSL config helpers
+│   └── lib/                  # shared WSLg launcher setup
 └── docs/                     # architecture, install, theming, troubleshooting, research
 ```
 
@@ -35,7 +37,7 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
    - Exposes NixOS and Home Manager configurations, local packages/overlays (e.g. `iris-colors`), and checks.
 2. **Host configuration (`system/hosts/wsl/`)**
    - WSL-specific system settings via `nixos-wsl.nixosModules.default` and `system/modules/wsl.nix`.
-   - No bootloader, disk mounts, or hardware configuration: WSL owns the root filesystem. WSLg provides the default Wayland session; MangoWC is installed and config-validated, but launched on demand as a nested window via `scripts/start-mango-wsl.sh`.
+   - No bootloader, disk mounts, or hardware configuration: WSL owns the root filesystem. WSLg provides the default Wayland session. MangoWC is installed and config-validated but its nested launcher is best-effort; sway is the working fallback. Neither starts at login.
 3. **Home Manager (`home.nix`)**
    - User environment and module aggregation. Modules are organized under the `desktop/`, `apps/`, and `shell/` branches.
 4. **Application/config assets**
@@ -45,7 +47,8 @@ This repository is a modular, declarative NixOS + Flakes + Home Manager dotfiles
    - App-specific modules/configs under `apps/terminal/ghostty/`, `shell/nushell/`, `shell/starship/`, and `apps/editor/neovim/`.
 5. **Scripts (`scripts/`)**
    - Safe helpers for applying settings and validation (allowlisted commands only; no arbitrary UI-driven execution).
-   - `start-mango-wsl.sh` launches MangoWC nested inside WSLg with the wlroots Wayland backend.
+   - `lib/wslg-wayland.sh` is sourced by both nested launchers to set up the WSLg socket and wlroots Wayland environment.
+   - `start-sway-wsl.sh` launches the working nested sway fallback with `WLR_RENDERER=pixman`; `start-mango-wsl.sh` is the best-effort MangoWC launcher.
 
 ## Theming data flow (Iris-centered)
 

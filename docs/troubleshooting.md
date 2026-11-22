@@ -11,6 +11,21 @@
   - This branch needs no hardware config. Ensure `wsl.enable = true` and `iris.wsl.enable = true` in `system/hosts/wsl/default.nix`.
   - WSL owns boot/filesystems; verify WSLg and Windows GPU driver integration instead.
 
+## Nested sway (WSL fallback)
+
+- **Launch**
+  - `./scripts/start-sway-wsl.sh` — works on stock WSL kernels; no DRM node, no `/dev/udmabuf`, no custom kernel.
+  - It sets `WLR_RENDERER=pixman`, `WLR_BACKENDS=wayland`, unsets `DISPLAY`, and loads `~/.config/sway/config`.
+- **Blank window / no input**
+  - Confirm the WSLg socket exists (`/mnt/wslg/runtime-dir/wayland-0`) and that the launcher was used; plain `sway` may pick a different backend.
+  - Do not inherit `DISPLAY`; the launcher unsets it.
+- **`sway: command not found` or config missing**
+  - Rebuild: `sudo nixos-rebuild switch --flake .#wsl`. The sway module is imported only by the WSL home configuration.
+- **Xwayland errors**
+  - Expected: the config uses `xwayland disable` because WSLg already owns `/tmp/.X11-unix`. Run X11-only apps through WSLg instead.
+- **Performance**
+  - pixman is CPU rendering. Use WSLg directly for GPU-bound apps instead of running them inside the nested session.
+
 ## MangoWC
 
 - **Config not applying**
@@ -22,7 +37,7 @@
 - **Nested WSL launch fails**
   - `error: WSLg Wayland socket not found at /mnt/wslg/runtime-dir/wayland-0` means you are outside WSL 2 or WSLg is disabled; enable WSLg and relaunch the distro.
   - `Cannot create GLES2 renderer: no DRM FD available` / `couldn't create renderer` means plain `mango` was started without the launcher, or the launcher had not yet been updated. Mango uses scenefx's GLES2 renderer and **ignores** `WLR_RENDERER=pixman`; run `./scripts/start-mango-wsl.sh`, which sets `WLR_RENDERER_FORCE_SOFTWARE=1` and `WLR_RENDERER_ALLOW_SOFTWARE=1`.
-  - If you now get `Failed to open /dev/udmabuf` / `couldn't create allocator`, that is the known stock WSL kernel blocker: software GLES2 works but wlroots needs `/dev/udmabuf` for buffer allocation (see [WSLg #1532](https://github.com/microsoft/wslg/issues/1532)). Custom kernel with `CONFIG_UDMABUF=y`, a real DRM render node, or native Linux is required; a plain pixman fallback is not available because Mango hardcodes the FX renderer.
+  - If you now get `Failed to open /dev/udmabuf` / `couldn't create allocator`, that is the known stock WSL kernel blocker: software GLES2 works but wlroots needs `/dev/udmabuf` for buffer allocation (see [WSLg #1532](https://github.com/microsoft/wslg/issues/1532)). Custom kernel with `CONFIG_UDMABUF=y`, a real DRM render node, or native Linux is required; a plain pixman fallback is not available because Mango hardcodes the FX renderer. A segfault right after these messages is Mango dereferencing the failed renderer — use `./scripts/start-sway-wsl.sh` instead.
   - If the nested window is blank, do not inherit `DISPLAY`; the launcher unsets it and forces `WLR_BACKENDS=wayland`.
   - Nested Mango appears as one undecorated WSLg window. Use Windows `Alt+Tab`/snapping or `Alt+Space` → Move for the outer window, and Mango bindings for the inner session.
 

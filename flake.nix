@@ -1,5 +1,5 @@
 {
-  description = "NixOS-WSL test branch: Iris-themed Quickshell dotfiles with opt-in nested MangoWC";
+  description = "NixOS-WSL test branch: Iris-themed Quickshell dotfiles with opt-in nested sway/MangoWC";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
